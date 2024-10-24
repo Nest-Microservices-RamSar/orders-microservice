@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
+import { PaginationDto } from '../common/dto/pagination.dto';
 
 @Injectable()
 export class OrdersService {
@@ -8,7 +9,7 @@ export class OrdersService {
     return 'This action adds a new order';
   }
 
-  findAll() {
+  findAll(paginationDto: PaginationDto) {
     return `This action returns all orders`;
   }
 
