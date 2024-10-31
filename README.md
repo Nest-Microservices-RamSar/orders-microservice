@@ -4,7 +4,7 @@
 docker compose up -d
 ```
 
-## Develpment pasos
+## Develpment steps
 
 1. Clonar el proyecto
 2. Craer un archivo `.env` basado en el archivo `.env.template`
