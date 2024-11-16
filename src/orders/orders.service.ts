@@ -14,6 +14,7 @@ import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderStatusDto } from './dto/update-order-status.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { OrderWithProducts } from 'src/interfaces/order-with-products.interface';
+import { PaidOrderDto } from './dto';
 
 @Injectable()
 export class OrdersService extends PrismaClient implements OnModuleInit {
@@ -216,5 +217,27 @@ export class OrdersService extends PrismaClient implements OnModuleInit {
     );
 
     return paymentSession;
+  }
+
+  async paidOrder(paidOrderDto: PaidOrderDto) {
+    console.log('Creating the payment and updating the order status...');
+
+    const updatedOrder = await this.order.update({
+      where: { id: paidOrderDto.orderId },
+      data: {
+        status: 'PAID',
+        paidAt: new Date(),
+        stripeChargeId: paidOrderDto.stripePaymentId,
+
+        // La relacion con la tabla OrderReceipt
+        OrderReceipt: {
+          create: {
+            receiptUrl: paidOrderDto.receiptUrl,
+          },
+        },
+      },
+    });
+
+    return updatedOrder;
   }
 }
